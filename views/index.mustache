@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style>
+      form {
+        display: inline;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>People</h1>
+
+    <a href="/entry">insert some new data</a>
+
+    <h2>Regular</h2>
+    {{#regularSelectData}}
+    <div>{{first_name}} {{last_name}} <a href="/edit/{{person_id}}">edit</a>
+      <form method="POST" action="/destroy/{{person_id}}">
+        <button type="submit">delete</button>
+      </form>
+    </div>
+    {{/regularSelectData}}
+
+    <h2>Ordered</h2>
+    {{#orderedSelectData}}
+    <div>{{first_name}} {{last_name}}</div>
+    {{/orderedSelectData}}
+
+  </body>
+</html>
