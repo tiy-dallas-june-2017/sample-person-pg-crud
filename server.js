@@ -87,6 +87,7 @@ app.post('/destroy/:id', (req, res) => {
     })
     .then((result) => {
       console.log('result?', result);
+      client.end();
       res.redirect('/');
     });
 
@@ -103,14 +104,29 @@ app.get('/edit/:id', (req, res) => {
     })
     .then((result) => {
       console.log(result.rows);
+      client.end();
       //TODO: what if no one is returned?
       res.render('edit', result.rows[0]);
     });
-
-
-
 });
 
+app.post('/edit/:id', (req, res) => {
+  console.log('body', req.body);
+
+  const client = new Client();
+  client.connect()
+    .then(() => {
+      const sql = 'UPDATE person SET first_name = $1, last_name = $2, age = $3 WHERE person_id = $4';
+      const params = [req.body.firstName, req.body.lastName, req.body.age, req.params.id];
+      return client.query(sql, params);
+    })
+    .then((result) => {
+      console.log('result', result);
+      client.end();
+      res.redirect('/');
+    });
+
+});
 
 
 app.listen(process.env.PORT, function() {
